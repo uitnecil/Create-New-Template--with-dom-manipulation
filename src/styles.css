@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.header {
+  display: block;
+  height: 200px;
+  width: 100%;
+  background-color: #8718b6;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.margin-10 {
+  margin: 10px;
+}
+
+

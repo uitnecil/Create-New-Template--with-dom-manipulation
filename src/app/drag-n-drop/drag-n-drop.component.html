@@ -1,0 +1,42 @@
+<div class="flex-row">
+  <div class="flex-column drag-container-left round-border-4px">
+    <div #normalInput id="source" class="drag-element round-border-2px" (dragstart)="processDrag($event)"
+         draggable="true"
+         (click)="normalInput.focus()"> input
+      text
+    </div>
+  </div>
+  <div class="flex-column drop-container round-border-4px" id="target"
+       (dragover)="processDragOver($event)"
+       (dragleave)="processDropAreaLeft($event)"
+       (drop)="processDrop($event)" dropzone="copy">
+  </div>
+
+  <div class="flex-column container-right round-border-4px no-select">
+    <div class="style-icon" (click)="alignSelectedLeft()">
+      <i class="material-icons">format_align_left</i>
+      <span class="style-icon-text">Align Left</span>
+    </div>
+    <div class="style-icon" (click)="alignSelectedCenter()">
+      <i class="material-icons">format_align_center</i>
+      <span class="style-icon-text">Align Center</span>
+    </div>
+    <div class="style-icon" (click)="alignSelectedRight()">
+      <i class="material-icons">format_align_right</i>
+      <span class="style-icon-text">Align Right</span>
+    </div>
+    <div class="style-icon" (click)="uppercase()">
+      <i class="material-icons">thumbs_up_down</i>
+      <span class="style-icon-text">Uppercase</span>
+    </div>
+    <div class="style-icon" (click)="capitalize()">
+      <i class="material-icons">spellcheck</i>
+      <span class="style-icon-text">Capitalize</span>
+    </div>
+    <div class="style-icon" (click)="textShadow()">
+      <i class="material-icons">polymer</i>
+      <span class="style-icon-text">Text Red</span>
+    </div>
+
+  </div>
+</div>
