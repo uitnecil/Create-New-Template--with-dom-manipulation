@@ -8,6 +8,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 })
 export class DragNDropComponent implements OnInit, AfterViewInit {
   id = 0;
+  source0: HTMLElement;
   target: HTMLElement;
   lastChildOver: HTMLElement = null;
 
@@ -18,10 +19,19 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // init draggable target
+    this.source0 = document.getElementById('source0');
+    this.source0.ondragstart = this.processDrag;
+
+
+    // init drop target
     this.target = document.getElementById('target');
+    this.target.ondragover = this.processDragOver;
+    this.target.ondragleave = this.processDropAreaLeft;
+    this.target.ondrop = this.processDrop;
   }
 
-  processDrag(event: DragEvent) {
+  processDrag = (event: DragEvent) => {
     event.dataTransfer.setData('', '');
     event.dataTransfer.dropEffect = 'copy';
     event.dataTransfer.effectAllowed = 'copy';
@@ -30,7 +40,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
   }
 
 
-  processDrop(event: DragEvent) {
+  processDrop = (event: DragEvent) => {
     const sourceId = event.dataTransfer.getData('text');
     console.log('sourceId: ', sourceId);
     const origEl: HTMLElement = document.getElementById(sourceId);
@@ -43,15 +53,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     (<HTMLElement>newEl).addEventListener('blur', function (this: HTMLElement) {
       console.log('onblur');
       (<HTMLElement>newEl).classList.remove('clicked');
-      // console.log(ev);
     }, false);
-    // (<HTMLElement>newEl).onblur = function (this: HTMLElement) {
-    //   console.log('onblur');
-    //   this.classList.remove('clicked');
-    //   console.log(ev);
-    // };
-
-    // const newEl = this.cloneElement(sourceId);
 
     switch (true) {
       case ((<HTMLElement>event.target).parentNode === this.target):
@@ -73,7 +75,6 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
 
       case ((<HTMLElement>event.target).parentNode !== this.target):
         if (origEl.parentNode !== this.target) {
-          // this.target.insertBefore(newEl, null);
           (<HTMLElement>newEl).id += this.id;
           newEl.textContent += this.id;
           this.id += 1;
@@ -97,7 +98,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  processDragOver(event: DragEvent) {
+  processDragOver = (event: DragEvent) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'copy';
     if ((<HTMLElement>event.target).parentNode === this.target) {
@@ -118,35 +119,14 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     }
   }
 
-  processDropAreaLeft(event: DragEvent): void {
+  processDropAreaLeft = (event: DragEvent): void  => {
     (<HTMLElement>event.target).classList.remove('drag-over');
     if (this.lastChildOver && this.lastChildOver !== <HTMLElement>event.target) {
       (this.lastChildOver).classList.remove('child-over');
     }
   }
 
-  cloneElement(cloneThisId: string): HTMLElement {
-    const elementToBeCloned = document.getElementById(cloneThisId);
-    const newEl: HTMLElement = document.createElement('div');
-    // clone classes from the element to be cloned.
-    this.getElementClassesArray(elementToBeCloned)
-      .forEach((currentClass: string) => newEl.classList.add(currentClass));
-    // special class to react on focus
-    // newEl.classList.add('react-on-focus');
-    newEl.innerText = elementToBeCloned.innerText + ' ' + this.id.toString();
-    this.id += 1;
-    return newEl;
-  }
-
-  getElementClassesArray(elem: HTMLElement): string[] {
-    const classesArray = [];
-    for (let i = 0; i < elem.classList.length; i++) {
-      classesArray.push(elem.classList.item(i));
-    }
-    return classesArray;
-  }
-
-  setEvents(el: HTMLElement): void {
+  setEvents = (el: HTMLElement): void =>  {
     el.ondragstart = function (ev: DragEvent) {
       ev.dataTransfer.setData('', '');
       ev.dataTransfer.dropEffect = 'copy';
@@ -163,13 +143,9 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     el.onclick = function (ev: MouseEvent) {
       el.classList.toggle('clicked');
     };
-    // (<HTMLElement>el).onblur = function () {
-    //   console.log('onblur');
-    //   el.classList.remove('clicked');
-    // };
   }
 
-  alignSelectedCenter() {
+  alignSelectedCenter = () => {
     const listToFormat: HTMLCollectionOf<Element> = document.getElementsByClassName('clicked');
     for (let i = 0; i < listToFormat.length; i++) {
       // clear other possible formatting that negate the requested formatting
@@ -180,7 +156,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     }
   }
 
-  alignSelectedRight() {
+  alignSelectedRight = () => {
     const listToFormat: HTMLCollectionOf<Element> = document.getElementsByClassName('clicked');
     for (let i = 0; i < listToFormat.length; i++) {
       // clear other possible formatting that negate the requested formatting
@@ -191,7 +167,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     }
   }
 
-  alignSelectedLeft() {
+  alignSelectedLeft = () => {
     const listToFormat: HTMLCollectionOf<Element> = document.getElementsByClassName('clicked');
     for (let i = 0; i < listToFormat.length; i++) {
       // clear other possible formatting that negate the requested formatting
@@ -202,7 +178,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     }
   }
 
-  uppercase() {
+  uppercase = () => {
     const listToFormat: HTMLCollectionOf<Element> = document.getElementsByClassName('clicked');
     for (let i = 0; i < listToFormat.length; i++) {
       // clear other possible formatting
@@ -212,7 +188,7 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     }
   }
 
-  capitalize() {
+  capitalize = () => {
     const listToFormat: HTMLCollectionOf<Element> = document.getElementsByClassName('clicked');
     for (let i = 0; i < listToFormat.length; i++) {
       // clear other possible formatting
@@ -222,13 +198,9 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     }
   }
 
-  textShadow() {
+  textShadow = () => {
     const listToFormat: HTMLCollectionOf<Element> = document.getElementsByClassName('clicked');
     for (let i = 0; i < listToFormat.length; i++) {
-      // clear other possible formatting
-      // listToFormat.item(i).classList.remove('uppercase');
-      // listToFormat.item(i).classList.remove('capitalize');
-      // add new formatting
       listToFormat.item(i).classList.toggle('text-shadow');
     }
   }

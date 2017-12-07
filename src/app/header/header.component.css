@@ -12,12 +12,15 @@
 
 h1 {
   display: flex;
+  flex-flow: row nowrap;
   margin: 0;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   -webkit-margin-start: 0px;
   -webkit-margin-end: 0px;
   padding: 0;
+  /*flex: 1 1 auto;*/
+  flex-shrink: 1;
 }
 
 .h1 {
@@ -29,7 +32,9 @@ h1 {
   top: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  display: flex;
+  /*display: flex;*/
+  /*flex-flow: row nowrap;*/
+  /*flex: 1 1 auto;*/
   align-content: space-around;
   align-items: center;
   justify-content: space-around;
@@ -38,6 +43,8 @@ h1 {
   margin: 0;
   padding: 0;
   z-index: 1;
+
+  flex-shrink: 1;
 }
 
 .no-select {
@@ -46,7 +53,7 @@ h1 {
 
 .flex-column {
   display: flex;
-  flex-flow: column;
+  flex-flow: column nowrap;
   /*margin: 10px;*/
   align-items: center;
   align-content: stretch;

@@ -1,15 +1,11 @@
 <div class="flex-row">
   <div class="flex-column drag-container-left round-border-4px">
-    <div #normalInput id="source" class="drag-element round-border-2px" (dragstart)="processDrag($event)"
-         draggable="true"
-         (click)="normalInput.focus()"> input
+    <div #normalInput id="source0" class="drag-element round-border-2px"
+         draggable="true"> input
       text
     </div>
   </div>
-  <div class="flex-column drop-container round-border-4px" id="target"
-       (dragover)="processDragOver($event)"
-       (dragleave)="processDropAreaLeft($event)"
-       (drop)="processDrop($event)" dropzone="copy">
+  <div class="flex-column drop-container round-border-4px" id="target">
   </div>
 
   <div class="flex-column container-right round-border-4px no-select">
