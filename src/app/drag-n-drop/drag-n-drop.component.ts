@@ -36,13 +36,11 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
     event.dataTransfer.dropEffect = 'copy';
     event.dataTransfer.effectAllowed = 'copy';
     event.dataTransfer.setData('text', (<HTMLElement>event.target).id);
-    // console.log('dragStart: dropEffect = ' + event.dataTransfer.dropEffect + ' ; effectAllowed = ' + event.dataTransfer.effectAllowed);
   }
 
 
   processDrop = (event: DragEvent) => {
     const sourceId = event.dataTransfer.getData('text');
-    console.log('sourceId: ', sourceId);
     const origEl: HTMLElement = document.getElementById(sourceId);
     if (!origEl) {
       return false;
@@ -51,7 +49,6 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
 
     this.setEvents(<HTMLElement>newEl);
     (<HTMLElement>newEl).addEventListener('blur', function (this: HTMLElement) {
-      console.log('onblur');
       (<HTMLElement>newEl).classList.remove('clicked');
     }, false);
 
@@ -117,6 +114,9 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
       && this.lastChildOver && event.target !== this.lastChildOver) {
       (this.lastChildOver).classList.remove('child-over');
     }
+
+    event.preventDefault();
+    return false;
   }
 
   processDropAreaLeft = (event: DragEvent): void  => {
@@ -133,16 +133,16 @@ export class DragNDropComponent implements OnInit, AfterViewInit {
       ev.dataTransfer.effectAllowed = 'copy';
       ev.dataTransfer.setData('text', (<HTMLElement>this).id);
       // setDragImage(ev);
-      //
-      // function setDragImage(ev: DragEvent) {
-      //   const img = new Image();
-      //   img.src = '../../assets/images/duck-move.gif';
-      //   ev.dataTransfer.setDragImage(img, 5, 5);
-      // }
     };
     el.onclick = function (ev: MouseEvent) {
       el.classList.toggle('clicked');
     };
+  }
+
+  setDragImage = (ev: DragEvent) => {
+    const img = new Image();
+    img.src = '../../assets/images/duck-move.gif';
+    ev.dataTransfer.setDragImage(img, 5, 5);
   }
 
   alignSelectedCenter = () => {
